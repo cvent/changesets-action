@@ -81,14 +81,25 @@ export async function runPublish({
     { cwd }
   );
 
+  console.log("Pushing tags");
+
   await gitUtils.pushTags();
 
+  console.log("Pushed tags")
+
   let { packages, tool } = await getPackages(cwd);
+
+  console.log(`Packages: ${packages}, tool: ${tool}`);
+
   let releasedPackages: Package[] = [];
 
   if (tool !== "root") {
+    console.log("Tool is not 'root'");
+
     let newTagRegex = /New tag:\s+(@[^/]+\/[^@]+|[^/]+)@([^\s]+)/;
     let packagesByName = new Map(packages.map((x) => [x.packageJson.name, x]));
+
+    console.log(`Output: ${changesetPublishOutput.stdout}`);
 
     for (let line of changesetPublishOutput.stdout.split("\n")) {
       let match = line.match(newTagRegex);
