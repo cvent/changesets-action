@@ -102,6 +102,8 @@ export async function runPublish({
     console.log(`Output: ${changesetPublishOutput.stdout}`);
 
     for (let line of changesetPublishOutput.stdout.split("\n")) {
+      console.log(`Line: ${line}`);
+
       let match = line.match(newTagRegex);
       if (match === null) {
         continue;
